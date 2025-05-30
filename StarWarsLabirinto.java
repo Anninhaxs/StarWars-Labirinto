@@ -28,18 +28,18 @@ class Labirinto {
         perigosMap.put('S', new Stormtrooper(dificuldade));
         perigosMap.put('T', new LaserTurret(dificuldade));
         perigosMap.put('G', new GasVenenoso(dificuldade));
-        gerarLabirintoValido();
+        generarLabirintoValido();
         atualizarSaida(false);
     }
 
-    public void gerarLabirintoValido() {
+    public void generarLabirintoValido() {
         boolean labirintoValido = false;
         int tentativas = 0;
         while (!labirintoValido && tentativas < 10) {
             gerarLabirintoBase();
             labirintoValido = verificarConectividade();
             tentativas++;
-            if (!labirintoValido && tentativas == 10) {
+            if (tentativas == 10) {
                 System.out.println("Não foi possível gerar um labirinto válido após 10 tentativas. Tentando novamente...");
                 tentativas = 0;
             }
@@ -53,14 +53,11 @@ class Labirinto {
         }
         caminhoGerado.clear();
 
-
         int startX = random.nextInt((largura - 2) / 2) * 2 + 1;
         int startY = random.nextInt((altura - 2) / 2) * 2 + 1;
         gerarCaminhoDFS(startX, startY);
 
-
         caminhoGerado.removeIf(p -> mapa[p[1]][p[0]] == 'P' || mapa[p[1]][p[0]] == 'K' || mapa[p[1]][p[0]] == 's');
-
 
         int[] posJogador = obterPosicaoLivreAleatoria();
         int[] posChave = obterPosicaoLivreAleatoria();
@@ -86,7 +83,6 @@ class Labirinto {
         return espacosLivres.get(random.nextInt(espacosLivres.size()));
     }
 
-
     private void colocarElementosAleatorios() {
         int qtdStormtroopers, qtdArmadilhas, qtdTesouros;
 
@@ -110,7 +106,6 @@ class Labirinto {
                 colocarElementoAleatorio('B');
                 break;
         }
-
 
         colocarElementoAleatorio('E');
         colocarElementoAleatorio('A');
@@ -169,13 +164,10 @@ class Labirinto {
             }
         }
 
-        // Aceita uma pequena porcentagem de células inacessíveis para labirintos mais abertos
-        // Por exemplo, 90% das células livres devem ser acessíveis
         return (double) celulasAcessiveis / totalCelulasLivres >= 0.90;
     }
 
     private void removerMaisParedes() {
-
         for (int y = 1; y < altura - 1; y++) {
             for (int x = 1; x < largura - 1; x++) {
                 if (mapa[y][x] == '#' && contarVizinhosLivres(x, y) == 1) {
@@ -297,11 +289,23 @@ class Labirinto {
     public int getAltura() {
         return altura;
     }
+
+    public void removerTodosInimigos() {
+        for (int y = 0; y < altura; y++) {
+            for (int x = 0; x < largura; x++) {
+                char celula = mapa[y][x];
+                if (celula == 'S' || celula == 'B' || celula == 'V') {
+                    mapa[y][x] = ' ';
+                }
+            }
+        }
+    }
 }
 
 class Jogador {
     int x, y;
     int vida = 150;
+    int vidaMaxima = 150;
     int ataque = 15;
     int defesa = 10;
     int velocidade = 1;
@@ -319,6 +323,14 @@ class Jogador {
     public void adicionarPontos(int valor) {
         this.pontuacao += valor;
         System.out.println("║ Pontos: +" + valor + " (Total: " + this.pontuacao + ")");
+    }
+
+    public void adicionarVida(int valor) {
+        this.vida += valor;
+        if (this.vida > this.vidaMaxima) {
+            this.vida = this.vidaMaxima;
+        }
+        System.out.println("║ Vida: +" + valor + " (Total: " + this.vida + ")");
     }
 
     public Jogador(int x, int y, String nome) {
@@ -569,7 +581,17 @@ class LaserTurret extends Armadilha {
 
     @Override
     public void interagir(Jogador j) {
+        int danoCausado = this.dano - (j.defesa / 2);
+        if (danoCausado < 0) danoCausado = 0;
 
+        j.vida -= danoCausado;
+        System.out.println("╔════════════════════════════╗");
+        System.out.println("║ ARMADILHA ATIVADA: " + nome + "!");
+        System.out.println("╠════════════════════════════╣");
+        System.out.println("║ " + descricao);
+        System.out.println("║ Você sofre " + danoCausado + " de dano!");
+        System.out.println("║ Vida atual: " + j.vida);
+        System.out.println("╚════════════════════════════╝");
     }
 }
 
@@ -589,7 +611,20 @@ class GasVenenoso extends Armadilha {
 
     @Override
     public void interagir(Jogador j) {
-
+        System.out.println("╔════════════════════════════╗");
+        System.out.println("║ ARMADILHA ATIVADA: " + nome + "!");
+        System.out.println("╠════════════════════════════╣");
+        System.out.println("║ " + descricao);
+        if (!j.envenenado) {
+            j.envenenado = true;
+            j.danoVeneno = this.danoPorPassos;
+            j.passosEnvenenado = 0;
+            System.out.println("║ Você foi envenenado! Sofrerá dano por alguns movimentos.");
+        } else {
+            System.out.println("║ O veneno está mais forte!");
+            j.danoVeneno += this.danoPorPassos;
+        }
+        System.out.println("╚════════════════════════════╝");
     }
 }
 
@@ -609,6 +644,46 @@ abstract class Monstro implements Perigo {
         this.nome = nome;
         this.descricao = descricao;
     }
+
+    @Override
+    public void interagir(Jogador j) {
+        System.out.println("╔════════════════════════════╗");
+        System.out.println("║ INIMIGO ENCONTRADO: " + nome + "!");
+        System.out.println("╠════════════════════════════╣");
+        System.out.println("║ " + descricao);
+        System.out.println("║ Vida do " + nome + ": " + this.vida);
+        System.out.println("║ Seu Ataque: " + j.ataque + " | Sua Defesa: " + j.defesa);
+        System.out.println("╚════════════════════════════╝");
+
+        int danoCausadoAoMonstro = j.ataque - this.defesa;
+        if (danoCausadoAoMonstro < 1) danoCausadoAoMonstro = 1;
+
+        int danoCausadoAoJogador = this.dano - (j.defesa / 2);
+        if (danoCausadoAoJogador < 0) danoCausadoAoJogador = 0;
+
+        this.vida -= danoCausadoAoMonstro;
+        j.vida -= danoCausadoAoJogador;
+
+        System.out.println("╔════════════════════════════╗");
+        System.out.println("║ RESULTADO DO COMBATE!");
+        System.out.println("╠════════════════════════════╣");
+        System.out.println("║ Você causou " + danoCausadoAoMonstro + " de dano ao " + nome + ".");
+        System.out.println("║ " + nome + " causou " + danoCausadoAoJogador + " de dano a você.");
+        System.out.println("║ Vida do " + nome + ": " + this.vida);
+        System.out.println("║ Sua Vida: " + j.vida);
+        System.out.println("╚════════════════════════════╝");
+
+        if (this.vida <= 0) {
+            System.out.println("╔════════════════════════════╗");
+            System.out.println("║ " + nome + " DERROTADO!");
+            System.out.println("╚════════════════════════════╝");
+        } else if (j.vida > 0) {
+            System.out.println("╔════════════════════════════╗");
+            System.out.println("║ O " + nome + " fugiu para as sombras, ou você se esquivou!");
+            System.out.println("║ Continue explorando, mas cuidado!");
+            System.out.println("╚════════════════════════════╝");
+        }
+    }
 }
 
 class Stormtrooper extends Monstro {
@@ -625,11 +700,6 @@ class Stormtrooper extends Monstro {
                 "Soldado de elite do Império com blaster E-11"
         );
     }
-
-    @Override
-    public void interagir(Jogador j) {
-
-    }
 }
 
 class BobaFett extends Monstro {
@@ -638,11 +708,6 @@ class BobaFett extends Monstro {
                 "Boba Fett",
                 "O lendário caçador de recompensas com seu jetpack");
     }
-
-    @Override
-    public void interagir(Jogador j) {
-
-    }
 }
 
 class DarthVader extends Monstro {
@@ -650,11 +715,6 @@ class DarthVader extends Monstro {
         super(100, 25, 3, 30,
                 "Darth Vader",
                 "O Lorde Sombrio dos Sith com seu sabre de luz vermelho");
-    }
-
-    @Override
-    public void interagir(Jogador j) {
-
     }
 }
 
@@ -795,10 +855,12 @@ class Creditos extends Preciosidades {
 }
 
 public class StarWarsLabirinto {
+    private static Dificuldade Dificade;
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("╔════════════════════════════════════════════╗");
-        System.out.println("║     STAR WARS: FUGA DA ESTRELA DA MORTE    ║");
+        System.out.println("║      STAR WARS: FUGA DA ESTRELA DA MORTE     ║");
         System.out.println("╚════════════════════════════════════════════╝");
         System.out.println("\nÉ o ano 0 ABY (Após a Batalha de Yavin).");
         System.out.println("Você é um herói da Aliança Rebelde capturado");
@@ -822,13 +884,12 @@ public class StarWarsLabirinto {
         Dificuldade dificuldade;
         switch (escolha) {
             case 1: dificuldade = Dificuldade.PADAWAN; break;
-            case 2: dificuldade = Dificuldade.CAVALEIRO_JEDI; break;
+            case 2: dificuldade = Dificade.CAVALEIRO_JEDI; break;
             case 3: dificuldade = Dificuldade.LORDE_SITH; break;
             default:
                 System.out.println("Escolha inválida. Usando dificuldade Padawan.");
                 dificuldade = Dificuldade.PADAWAN;
         }
-
 
         Labirinto labirinto = new Labirinto(25, 15, dificuldade);
 
@@ -841,17 +902,59 @@ public class StarWarsLabirinto {
         System.out.println("║ Jogador: " + jogador.nome);
         System.out.println("║ Dificuldade: " + dificuldade);
         System.out.println("║ Controles: W (cima), A (esquerda)");
-        System.out.println("║           S (baixo), D (direita)");
-        System.out.println("║           I (inventário)");
-        System.out.println("║           Q (sair)");
+        System.out.println("║            S (baixo), D (direita)");
+        System.out.println("║            I (inventário)");
+        System.out.println("║            Q (sair)");
         System.out.println("╚════════════════════════════╝");
 
         boolean jogoAtivo = true;
+
+        String vidaExtraEasterEgg = "wwssadad";
+        String inimigosDerrotadosEasterEgg = "frota";
+        StringBuilder comandosDigitados = new StringBuilder();
+        final int MAX_LEN_EASTER_EGG = Math.max(vidaExtraEasterEgg.length(), inimigosDerrotadosEasterEgg.length());
+
+
         while (jogoAtivo && jogador.vida > 0) {
             labirinto.mostrarMapa();
             System.out.println("\nUse W/A/S/D para mover, I para inventário, Q para sair");
             System.out.print("Sua ação: ");
             char comando = scanner.next().toLowerCase().charAt(0);
+
+            if (comando == 'w' || comando == 'a' || comando == 's' || comando == 'd' ||
+                    comando == 'f' || comando == 'r' || comando == 'o' || comando == 't') {
+
+                if (comandosDigitados.length() >= MAX_LEN_EASTER_EGG) {
+                    comandosDigitados.deleteCharAt(0);
+                }
+                comandosDigitados.append(comando);
+            } else {
+                comandosDigitados.setLength(0);
+            }
+
+            if (comandosDigitados.toString().equals(vidaExtraEasterEgg)) {
+                System.out.println("╔════════════════════════════╗");
+                System.out.println("║ EASTER EGG DESCOBERTO!     ║");
+                System.out.println("╠════════════════════════════╣");
+                System.out.println("║ A Força está com você, jovem Padawan!    ║");
+                System.out.println("║ Você ganhou 50 de vida extra!              ║");
+                System.out.println("║ \"Isso não é a Estrela da Morte... é uma armadilha!\" ║");
+                System.out.println("╚════════════════════════════╝");
+                jogador.adicionarVida(50);
+                comandosDigitados.setLength(0);
+            } else if (comandosDigitados.toString().equals(inimigosDerrotadosEasterEgg)) {
+                System.out.println("╔════════════════════════════╗");
+                System.out.println("║ ATAQUE DA FROTA REBELDE!   ║");
+                System.out.println("╠════════════════════════════╣");
+                System.out.println("║ Uma frota rebelde de emergência chegou! ║");
+                System.out.println("║ Todos os inimigos no labirinto foram eliminados! ║");
+                System.out.println("║ Pontos de Coragem: +100!                 ║");
+                System.out.println("╚════════════════════════════╝");
+                labirinto.removerTodosInimigos();
+                jogador.adicionarPontos(100);
+                comandosDigitados.setLength(0);
+            }
+
 
             if (comando == 'q') {
                 System.out.println("Você saiu do jogo.");
