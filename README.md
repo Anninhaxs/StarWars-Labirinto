@@ -1,10 +1,12 @@
-Trabalho realizado para POO
+# StarWars-LABIRINTO
+> Trabalho realizado para POO
 
-Grupo:
-Manuela Silveira da Silva (00000852571)
-Anna Beatriz dos Santos Silva (00000851757)
-Daniel Silva Costa (00000852075)
-Descrição Geral
+**Grupo:**
+- Manuela Silveira da Silva (00000852571)
+- Anna Beatriz dos Santos Silva (00000851757)
+- Daniel Silva Costa (00000852075)
+
+### Descrição Geral
 
 Este código Java implementa um jogo de labirinto com temática de Star Wars, onde o objetivo principal é escapar da Estrela da Morte.
 Como o Jogo Funciona
