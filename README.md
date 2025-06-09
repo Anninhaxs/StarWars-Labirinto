@@ -59,5 +59,8 @@ O objetivo é navegar pelo labirinto, coletar o código de acesso e chegar à na
 ---
 
 ### ANEXOS 
-## INICIO DO JOGO : 
+
+- TELA INICIO DO JOGO : 
 ![Image](https://github.com/user-attachments/assets/23393817-631f-418f-87c0-623458071ee7)
+
+- TELA LABIRINTO E COMANDOS: 
