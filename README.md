@@ -71,3 +71,6 @@ O objetivo é navegar pelo labirinto, coletar o código de acesso e chegar à na
 
 - TELA QUANDO ENCONTRA UM EASTER EGG:
 ![Image](https://github.com/user-attachments/assets/86b09cb4-c823-4161-994c-0384d6e9d050)
+
+- TELA QUANDO O JOGADOR GANHA:
+![Image](https://github.com/user-attachments/assets/855eeddf-815a-484d-a2fe-cc5956f9941d)
