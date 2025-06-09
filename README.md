@@ -56,3 +56,8 @@ O objetivo é navegar pelo labirinto, coletar o código de acesso e chegar à na
 - Hierarquia de itens (Armas, Armaduras, Tesouros)
 - Tipos de perigos (Armadilhas, Inimigos)
 - Sistema de jogo principal
+---
+
+### ANEXOS 
+## INICIO DO JOGO : 
+![Image](https://github.com/user-attachments/assets/23393817-631f-418f-87c0-623458071ee7)
