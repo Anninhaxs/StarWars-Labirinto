@@ -68,3 +68,6 @@ O objetivo é navegar pelo labirinto, coletar o código de acesso e chegar à na
 
 - TELA QUANDO ENCONTRA UM INIMIGO:
 ![Image](https://github.com/user-attachments/assets/0117e336-fef5-4313-a457-a033ae7e42ad)
+
+- TELA QUANDO ENCONTRA UM EASTER EGG:
+![Image](https://github.com/user-attachments/assets/86b09cb4-c823-4161-994c-0384d6e9d050)
