@@ -3,6 +3,8 @@
 
 ![Status](https://img.shields.io/badge/status-concluido-green)
 
+![Image](https://github.com/user-attachments/assets/fbd7b2bb-f968-48cc-b180-75fde4f03300)
+
 **Grupo:**
 - Manuela Silveira da Silva (00000852571)
 - Anna Beatriz dos Santos Silva (00000851757)
