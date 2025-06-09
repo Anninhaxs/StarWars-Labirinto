@@ -38,7 +38,7 @@ O objetivo é navegar pelo labirinto, coletar o código de acesso e chegar à na
 - Geração procedural de mapas com diferentes layouts
 - Diferentes níveis de dificuldade (Padawan, Cavaleiro Jedi, Lorde Sith)
 - Verificação de conectividade para garantir jogabilidade
-- Easter eggs e segredos escondidos
+- Easter eggs e segredos escondidos (W W S S A D A D)
 - Pontuação baseada em conquistas e itens coletados
 --- 
 
@@ -65,3 +65,6 @@ O objetivo é navegar pelo labirinto, coletar o código de acesso e chegar à na
 
 - TELA LABIRINTO E COMANDOS: 
 ![Image](https://github.com/user-attachments/assets/6d25f8c3-3c86-46eb-888c-03f618adf5b7)
+
+- TELA QUANDO ENCONTRA UM INIMIGO:
+![Image](https://github.com/user-attachments/assets/0117e336-fef5-4313-a457-a033ae7e42ad)
