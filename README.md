@@ -64,3 +64,4 @@ O objetivo é navegar pelo labirinto, coletar o código de acesso e chegar à na
 ![Image](https://github.com/user-attachments/assets/23393817-631f-418f-87c0-623458071ee7)
 
 - TELA LABIRINTO E COMANDOS: 
+![Image](https://github.com/user-attachments/assets/6d25f8c3-3c86-46eb-888c-03f618adf5b7)
