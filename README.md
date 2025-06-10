@@ -1,4 +1,4 @@
-# StarWars-LABIRINTO
+# StarWars-LABIRINTO 🚀
 > Trabalho realizado para POO
 
 ![Status](https://img.shields.io/badge/status-concluido-green)
@@ -10,14 +10,14 @@
 - Daniel Silva Costa (00000852075)
   
 ---
-## Descrição Geral
+## Descrição Geral 💬
 
 O Jogo StarWars-Labirinto em Java, onde o jogador assume o papel de um prisioneiro rebelde tentando escapar da Estrela da Morte.
 O objetivo é navegar pelo labirinto, coletar o código de acesso e chegar à nave TIE Fighter para fugir, enfrentando diversos perigos pelo caminho.
 
 ---
 
-### Funcionalidades
+### Funcionalidades 🔧
 > Sistema de Aventureiro (Jogador)
 - Personagem personalizável com nome escolhido pelo jogador
 - Atributos de vida, ataque e defesa
@@ -42,7 +42,7 @@ O objetivo é navegar pelo labirinto, coletar o código de acesso e chegar à na
 - Pontuação baseada em conquistas e itens coletados
 --- 
 
-### Conceitos Aplicados
+### Conceitos Aplicados 📚
 - Coleções: ArrayList para gerenciar caminhos e itens
 - Polimorfismo: Hierarquia de classes para diferentes tipos de tesouros e perigos
 - Tratamento de exceções: Prevenção de erros comuns de movimentação
@@ -50,7 +50,7 @@ O objetivo é navegar pelo labirinto, coletar o código de acesso e chegar à na
 - Abstração: Interfaces para tipos de itens e perigos
 ---
 
-### Estrutura do Projeto
+### Estrutura do Projeto 🧱
 > O código está organizado em:
 - Classes principais (Jogador, Labirinto)
 - Hierarquia de itens (Armas, Armaduras, Tesouros)
@@ -58,7 +58,7 @@ O objetivo é navegar pelo labirinto, coletar o código de acesso e chegar à na
 - Sistema de jogo principal
 ---
 
-### ANEXOS 
+### ANEXOS 🚚
 
 - TELA INICIO DO JOGO : 
 ![Image](https://github.com/user-attachments/assets/23393817-631f-418f-87c0-623458071ee7)
